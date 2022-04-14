@@ -28,7 +28,7 @@ export default {
 
       <div class="header">
         <div class="logo">
-          <img src="/logo.png" alt="">
+          <img src="./assets/logo.png" alt="">
         </div>
         <div class="title">
           <h1>EBD team 7</h1>
