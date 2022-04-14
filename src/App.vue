@@ -20,8 +20,9 @@ export default {
         input: this.address,
         distance: this.distance,
       };
-      const res = await axios.post('dev/event', params)
-      console.log(res);
+       const res = await axios.post('https://8ucr04gpxf.execute-api.ap-southeast-1.amazonaws.com/dev/event', params)
+       this.list = res.data.body;
+       console.log(res.data.body);
     }
   }
 }
@@ -40,6 +41,7 @@ export default {
       <div class="label">Distance:</div>
       <div class="">
         <select v-model="distance" name="distance" id="distance">
+          <option value="300">300</option>
           <option value="500">500</option>
           <option value="600">600</option>
           <option value="700">700</option>
@@ -56,8 +58,9 @@ export default {
     </div>
 
     <div class="list">
-      <div v-for="item in list" :key="item.Address">
-        <div>{{item.Address}}</div>
+      <div v-for="item in list">
+        <div>{{item}}</div>
+
       </div>
     </div>
   </div>
