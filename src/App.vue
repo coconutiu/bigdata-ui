@@ -1,68 +1,81 @@
 <script>
 import axios from 'axios';
+import ListItem from './ListItem.vue';
 export default {
-  data() {
-    return {
-      address: '',
-      distance: 500,
-      list: []
-    }
-  },
-  methods: {
-    clear() {
-      this.address = '';
-      this.distance = 500;
-      this.list = [];
+    data() {
+        return {
+            formvalue: {},
+            list: []
+        };
     },
-    async search() {
-      // 请求接口
-      const params = {
-        input: this.address,
-        distance: this.distance,
-      };
-       const res = await axios.post('https://8ucr04gpxf.execute-api.ap-southeast-1.amazonaws.com/dev/event', params)
-       this.list = res.data.body;
-       console.log(res.data.body);
-    }
-  }
+    methods: {
+        clear() {
+            this.formvalue = {};
+            this.list = [];
+        },
+        async search() {
+            // 请求接口
+            const params = this.formvalue;
+            const res = await axios.post("https://8ucr04gpxf.execute-api.ap-southeast-1.amazonaws.com/dev/event", params);
+            this.list = res.data.body[0].ResultList;
+        }
+    },
+    components: { ListItem }
 }
 </script>
 
 <template>
   <div class="wrapper">
-      <div class="form-item">
-      <div class="label">Address/Postal Code:</div>
-      <div class="">
-        <input type="text" v-model="address">
+
+      <div class="header">
+        <div class="logo">
+          <img src="./assets/logo.png" alt="">
+        </div>
+        <div class="title">
+          <h1>EBD team 7</h1>
+          <h1>Carpark Recommendation System</h1>
+        </div>
       </div>
-    </div>
 
-    <div class="form-item">
-      <div class="label">Distance:</div>
-      <div class="">
-        <select v-model="distance" name="distance" id="distance">
-          <option value="300">300</option>
-          <option value="500">500</option>
-          <option value="600">600</option>
-          <option value="700">700</option>
-          <option value="800">800</option>
-          <option value="900">900</option>
-          <option value="1000">1000</option>
-        </select>
-      </div>
-    </div>
+      
 
-    <div class="controls">
-      <button @click="clear">clear</button>
-      <button @click="search">search</button>
-    </div>
+      <el-card shadow="always" class="card">
+        <el-form
+          ref="form"
+          :model="formvalue"
+          label-width="auto"
+          size="large"
+        >
+          <el-form-item class="form-item" label="Address/Postal Code">
+            <el-input class="form-field"   v-model="formvalue.input" />
+          </el-form-item>
 
-    <div class="list">
-      <div v-for="item in list">
-        <div>{{item}}</div>
+          <el-form-item label="Distance" class="form-item">
+            <el-select
+              v-model="formvalue.distance"
+              placeholder="please select your distance"
+              class="form-field"
+            >
+              <el-option label="300m" :value="300" />
+              <el-option label="500m" :value="500" />
+              <el-option label="1000m" :value="600" />
+            </el-select>
+          </el-form-item>
+          
+        </el-form>
 
-      </div>
-    </div>
+        <div class="controls">
+          <el-button type="primary" color="#48c78e" size="large" @click="clear">Clear</el-button>
+          <el-button type="primary" color="#48c78e" size="large" @click="search">Search</el-button>
+        </div>
+        
+      </el-card>
+
+      <el-collapse class="list">
+        <el-collapse-item v-for="(item, index) in list" :key="item.Address" :title="`${item.Address}  ====>>     Available Lots:${item.Current_Lots_Available}  `">
+          <ListItem :data="item" :index="index" />
+        </el-collapse-item>
+      </el-collapse>
   </div>
 
 </template>
@@ -70,13 +83,48 @@ export default {
 <style>
 @import './assets/base.css';
 
+.header {
+  display: flex;
+}
+
+.header .logo img {
+  width: 200px;
+  height: 200px;
+}
+
+h1 {
+  font-weight: 900;
+  font-size: 60px;
+  margin-left: 20px;
+}
+
+.card {
+  margin-top: 50px;
+  background-color: #effaf5;
+  border-radius: 10px;
+  height: 400px;
+}
+
+.card .el-form-item__label {
+  color: #48c78e;
+  font-size: 30px;
+}
+
+.card .form-field {
+  width: 500px
+}
+
 .wrapper {
   padding: 20px;
 }
 
 .form-item {
-  display: flex;
-  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+.form-item input, .form-item select {
+  height: 60px !important;
+  font-size: 20px;
 }
 
 .label {
@@ -87,9 +135,36 @@ export default {
 
 .controls {
   margin-top: 20px;
+  margin-left: 285px;
 }
 
 .controls button {
-  margin-right: 10px;
+  margin-right: 50px;
+  color: #fff;
+  width: 150px;
+  height: 50px;
+  font-size: 24px;
+}
+
+.list {
+  margin-top: 20px;
+  margin-left: 10px;
+  width: calc(100% - 20px);
+}
+
+.list .el-collapse-item__header {
+  font-weight: 600;
+  font-size: 30px;
+}
+
+.list .el-collapse-item__content {
+  font-size: 20px;
+}
+
+.list .el-collapse-item__header {
+  color: #2cd8a1;
+  background-color: #effaf5;
+  height: 80px;
+  padding-left: 20px;
 }
 </style>
