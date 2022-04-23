@@ -32,7 +32,7 @@ export default {
           <img src="./assets/logo.png" alt="">
         </div>
         <div class="title">
-          <h1>EBD team 7</h1>
+          <h1>EBD Team 10</h1>
           <h1>Carpark Recommendation System</h1>
         </div>
       </div>
