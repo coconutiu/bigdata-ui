@@ -8,6 +8,13 @@
     <div class="lots">
         Current Lots Available: {{data.Current_Lots_Available}}
     </div>
+     <div class="prediction">
+        Prediction:
+    </div>
+    <div class="prediction-item" v-for="(item, index) in data.PredictionPointList" :key="index">
+        Time: {{item.Time}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Predict Available Lots: {{item.Value}}
+    </div>
     <div class="distance">
         Distance:  {{data.Distance}}
     </div>
@@ -17,7 +24,7 @@
 <script>
 import { Loader } from "@googlemaps/js-api-loader";
 const loader = new Loader({
-  //apiKey: import.meta.env.VITE_APIKEY,
+//   apiKey: import.meta.env.VITE_APIKEY,
   apiKey: window.atob("QUl6YVN5RFY1SlNRMkM1ZF84RV83bkxGY3hNU3FjbmdoLTI3bjZz"),
   version: "weekly",
 });
@@ -69,6 +76,17 @@ export default {
     background-color: #f4f9f7;
     height: 60px;
     padding-left: 20px;
+    }
+    .prediction {
+    color: #21bea0;
+    background-color: #f4f9f7;
+    height: 40px;
+    padding-left: 20px;
+    }
+    .prediction-item {
+    color: #1281db;
+    background-color: #f4f9f7;
+    padding-left: 60px;
     }
     .lots {
     color: #21bea0;
