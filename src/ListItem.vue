@@ -16,7 +16,7 @@
         Predict Available Lots: {{item.Value}}
     </div>
     <div class="distance">
-        Distance:  {{data.Distance}}
+        Distance:  {{data.Distance}}&nbsp;meters
     </div>
     <div class="map" :id="`map-${index}`"></div>
 </template>
