@@ -17,7 +17,7 @@
 <script>
 import { Loader } from "@googlemaps/js-api-loader";
 const loader = new Loader({
-  apiKey: import.meta.env.VITE_API_KEY,
+  apiKey: process.env.APIKEY,
   version: "weekly",
 });
 
